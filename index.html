@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div class="todo_table">
+      <div class="table_header">
+        <p class="table_p1">MY LIST</p>
+        <button id="add_btn" class="add_new">+</button>
+      </div>
+      <div id="list" class="list"></div>
+    </div>
+
+    <script>
+      var listArray = [
+        {
+          taskName: "Reading Books",
+          date: "12/9/2024",
+          Done: false,
+        },
+        {
+          taskName: "watching movies",
+          date: "12/9/2024",
+          Done: true,
+        },
+        {
+          taskName: "work time",
+          date: "12/9/2024",
+          Done: true,
+        },
+        {
+          taskName: "sleeping",
+          date: "12/9/2024",
+          Done: false,
+        },
+        {
+          taskName: "eating",
+          date: "12/9/2024",
+          Done: true,
+        },
+      ];
+
+      function getItemsFromLocalStorage(){
+        let retrived_items= JSON.parse(localStorage.getItem('tasks'));
+        if(retrived_items==null){
+          listArray=[]
+        }
+        else{
+          listArray=retrived_items;
+        }
+      }
+      getItemsFromLocalStorage();
+
+      function setItemsToLocalStorage(){
+        let storedItems= JSON.stringify(listArray);
+        localStorage.setItem('tasks',storedItems);
+
+      }
+
+      function add_new_task() {
+        document.getElementById("list").innerHTML = "";
+
+        let index = 0;
+
+        for (task of listArray) {
+          let content = `
+                <div id="list" class="${task.Done ?'done': 'list'} ">
+                <p>${task.taskName}</p>
+                <p>${task.date}</p>
+                <div class="actions">
+                <button onClick="update_task(${index})" class="action1">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg></button>
+              
+                ${task.Done ? `
+                
+                  <button onClick="isDone(${index})" class="action4"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M400-304 240-464l56-56 104 104 264-264 56 56-320 320Z"/></svg></button>
+              
+                `: `
+                
+                  <button onClick="isDone(${index})" class="action3"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M400-304 240-464l56-56 104 104 264-264 56 56-320 320Z"/></svg></button>
+              
+                
+                `} 
+              
+                <button onClick=delete_task(${index}) class="action2"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg></button>
+                </div>
+                </div>
+                <hr/>
+                `;
+
+
+          document.getElementById("list").innerHTML += content;
+
+          index++;
+        }
+        setItemsToLocalStorage()
+      }
+
+      add_new_task();
+
+      document.getElementById("add_btn").addEventListener("click", function () {
+        let prompt_val = prompt("Please enter your task");
+
+        console.log(prompt_val);
+
+        let date = new Date();
+        let now =
+          date.getDate() +
+          "/" +
+          (date.getMonth() + 1) +
+          "/" +
+          date.getFullYear();
+
+        let new_task = {
+          taskName: `${prompt_val}`,
+          date: now,
+          Done: false,
+        };
+
+        listArray.push(new_task);
+        setItemsToLocalStorage()
+
+        add_new_task();
+      });
+
+      function delete_task(index) {
+        let isConfirmed = confirm("Are you sure you want to delete");
+
+        if (isConfirmed == true) {
+          listArray.splice(index, 1);
+          setItemsToLocalStorage()
+          add_new_task();
+        }
+      }
+
+      function update_task(index) {
+        let update_prompt_val = prompt("Please enter your updated value");
+        let date = new Date();
+        let now =
+          date.getDate() +
+          "/" +
+          (date.getMonth() + 1) +
+          "/" +
+          date.getFullYear();
+         
+          listArray[index].taskName=update_prompt_val;
+          listArray[index].date=now;
+          setItemsToLocalStorage();
+
+        add_new_task();
+
+      }
+
+      function isDone(index){
+
+        let done_task= listArray[index];
+
+        if(done_task.Done){
+          done_task.Done=false;
+          setItemsToLocalStorage()
+        }
+        else{
+          done_task.Done=true;
+          setItemsToLocalStorage()
+        }
+    
+        add_new_task();
+
+      }
+    </script>
+  </body>
+</html>

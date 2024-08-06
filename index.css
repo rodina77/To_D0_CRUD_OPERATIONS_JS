@@ -1,0 +1,72 @@
+body
+{
+  background-color: rgb(32, 9, 53);
+}
+.todo_table
+{
+  display: block;
+  margin: auto;
+  width: 70%;
+  background-color: white;
+}
+.table_header
+{
+  background-color: rgb(163, 124, 200);
+  position: relative;
+}
+.table_p1
+{
+  text-align: center;
+  padding: 10px;
+  color: white;
+}
+.add_new
+{
+  background-color: white;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-radius: 180px;
+  font-size: 15px;
+  padding:5px 10px;
+  margin: 5px;
+}
+.list p{
+  padding-left: 10px;
+}
+.list
+{
+  position: relative;
+}
+.actions
+{
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+.action1 ,.action2,.action3
+{
+  border-radius: 180px;
+  background-color: rgb(172, 179, 38);
+  padding:5px 10px;
+  color: white;
+}
+.done{
+  background-color: rgb(173, 233, 213);
+  position: relative;
+}
+.action2
+{
+
+  background-color: rgb(179, 43, 38);
+
+}
+.action3
+{
+
+  background-color: rgb(38, 179, 54);
+
+}
+.action4{
+  background-color: rgb(216, 108, 108);
+}
